@@ -18,12 +18,10 @@ def game():
     pygame.mouse.set_visible( False )
     temporizador = pygame.time.Clock()
     carro = Carro()
-    obs = [Obs(),
-               Obs(),
-               Obs(),
-               Obs(),
-               Obs(),
-               Obs()]
+    obs = [Obs((1500,337),randint(1,10)),
+           Obs((1500,115),randint(1,10)),
+           Obs((1500,202),randint(1,10)),
+           Obs((1500,290),randint(1,10))]
     
     while True:
         for n in obs:
@@ -31,7 +29,7 @@ def game():
             n.renovar()
             
         fuente = pygame.font.Font(None,50)
-        texto_puntos = fuente.render("Puntos: "+str(carro.puntos),1,(255,255,255))
+        texto_puntos = fuente.render("Puntos: "+str(n.puntaje),1,(255,255,255))
         texto_vida = fuente.render("Vida: "+str(carro.vida),1,(255,255,255))
         
         carro.update()
@@ -39,27 +37,10 @@ def game():
         for n in obs:
             if carro.rect.colliderect(n.rect):
                 carro.image = carro.imagenes[1]
-                carro.arrancon.stop()
                 pierde_vida.play()
                 if carro.vida > 0:
                     carro.vida=carro.vida-1
 
-        for n in obs:
-            if carro.rect.x == n.rect.x:
-                carro.puntos += 1
-            elif carro.rect.x == n.rect.x+1:
-                carro.puntos += 1
-            elif carro.rect.x == n.rect.x+2:
-                carro.puntos += 1
-            elif carro.rect.x == n.rect.x+3:
-                carro.puntos += 1
-            elif carro.rect.x == n.rect.x+4:
-                carro.puntos += 1
-            elif carro.rect.x == n.rect.x+5:
-                carro.puntos += 1
-            elif carro.rect.x == n.rect.x+6:
-                carro.puntos += 1
-                    
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
