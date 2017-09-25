@@ -18,10 +18,10 @@ def game():
     pygame.mouse.set_visible( False )
     temporizador = pygame.time.Clock()
     carro = Carro()
-    obs = [Obs((1500,385),randint(5,10)),
-           Obs((1500,115),randint(5,10)),
-           Obs((1500,202),randint(5,10)),
-           Obs((1500,300),randint(5,10))]
+    obs = [Obs((1500,385),randint(3,10)),
+           Obs((1500,115),randint(3,10)),
+           Obs((1500,202),randint(3,10)),
+           Obs((1500,300),randint(3,10))]
     
     while True:
         for n in obs:
@@ -29,9 +29,10 @@ def game():
             n.renovar()
             
         fuente = pygame.font.Font(None,50)
+        fuentef = pygame.font.Font(None,100)
         texto_puntos = fuente.render("Puntos: "+str(carro.puntos),1,(255,255,255))
         texto_vida = fuente.render("Vida: "+str(carro.vida),1,(255,255,255))
-        texto_final = fuente.render("",1,(0,255,255))
+        texto_final = fuentef.render("",1,(0,0,0))
         
         carro.update()
                 
@@ -43,7 +44,7 @@ def game():
                     carro.vida=carro.vida-1
 
         if carro.vida <= 0:
-            texto_final = fuente.render("HAS PERDIDO",1,(0,255,255))  
+            texto_final = fuentef.render("HAS PERDIDO",1,(0,255,0))  
         for n in obs:
             if n.rect.x <= 30 and carro.vida > 0 and n.cont == 0:
                     carro.puntos=carro.puntos+1
