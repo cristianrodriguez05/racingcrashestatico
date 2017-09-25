@@ -15,24 +15,25 @@ class Obs(Sprite):
                                         util.cargar_imagen('imagenes/rocas.png')]
 		self.arrancon = pygame.mixer.Sound('sonidos/acelerar2.wav')
                 self.image = self.imagenes[randint(0,4)]
-		self.velocidad = randint(1,10)
+		self.velocidad = randint(7,10)
 		self.rect = self.image.get_rect()
 		self.rect.move_ip(coord[0], coord[1])
-		self.puntaje = 0
+		self.cont = 0
         
 	def update(self):
                 self.rect.x -= self.velocidad
                 teclas = pygame.key.get_pressed()
                 if teclas[K_SPACE]:
                         self.acelerar()
+                else:
+                        self.arrancon.stop()
                 
         def renovar(self):
 		if self.rect.x <= 0:
                         self.image = self.imagenes[randint(0,4)]
                         self.velocidad = randint(1,10)
-                        self.rect = self.image.get_rect()
-                        self.rect.move_ip(1500,choice([115, 202, 290, 337]))
-                        self.puntaje +=4
+                        self.rect.x = 1500
+                        self.cont = 0
 
         def acelerar(self):
                 self.arrancon.play()

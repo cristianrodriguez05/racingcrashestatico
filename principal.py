@@ -18,10 +18,10 @@ def game():
     pygame.mouse.set_visible( False )
     temporizador = pygame.time.Clock()
     carro = Carro()
-    obs = [Obs((1500,337),randint(1,10)),
-           Obs((1500,115),randint(1,10)),
-           Obs((1500,202),randint(1,10)),
-           Obs((1500,290),randint(1,10))]
+    obs = [Obs((1500,385),randint(5,10)),
+           Obs((1500,115),randint(5,10)),
+           Obs((1500,202),randint(5,10)),
+           Obs((1500,300),randint(5,10))]
     
     while True:
         for n in obs:
@@ -29,17 +29,25 @@ def game():
             n.renovar()
             
         fuente = pygame.font.Font(None,50)
-        texto_puntos = fuente.render("Puntos: "+str(n.puntaje),1,(255,255,255))
+        texto_puntos = fuente.render("Puntos: "+str(carro.puntos),1,(255,255,255))
         texto_vida = fuente.render("Vida: "+str(carro.vida),1,(255,255,255))
+        texto_final = fuente.render("",1,(0,255,255))
         
         carro.update()
                 
         for n in obs:
-            if carro.rect.colliderect(n.rect):
+            if carro.rect.colliderect(n.rect) and carro.vida > 0:
                 carro.image = carro.imagenes[1]
                 pierde_vida.play()
                 if carro.vida > 0:
                     carro.vida=carro.vida-1
+
+        if carro.vida <= 0:
+            texto_final = fuente.render("HAS PERDIDO",1,(0,255,255))  
+        for n in obs:
+            if n.rect.x <= 30 and carro.vida > 0 and n.cont == 0:
+                    carro.puntos=carro.puntos+1
+                    n.cont += 1
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -48,6 +56,7 @@ def game():
         screen.blit(carro.image, carro.rect)
         screen.blit(texto_vida,(400,500))
         screen.blit(texto_puntos,(100,500))
+        screen.blit(texto_final,(800,500))
         for n in obs:
             screen.blit(n.image, n.rect)
         pygame.display.update()
